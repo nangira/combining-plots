@@ -1,0 +1,67 @@
+### Name: Bilha Nangira
+### Date: 24/4/2020
+### Title: Combining plots into one overall graph using par() and layout().
+
+## 1. attach()
+#### The format is: par(mfrow = c(no.of rows, no. of columns))
+#### If we wanted three rows all in one column, the command would be par(mfrow = c(3,1))
+```{r}
+attach(mtcars)
+par ( mfrow = c ( 2 , 2 ))
+plot( wt, mpg ,main ="Scatter plot of mpg vs wt")
+plot ( wt, disp , main = "Scatter plot of disp vs wt")
+hist ( wt, main = "Histogram of wt")
+boxplot ( wt, main = "Boxplot of wt")
+```
+
+## 2. layout()
+#### The format is: layout(matrix()) where the matrix object is specifying the location of the N figures to be plotted.
+
+```{r}
+#Using the same mtcars dataset
+layout ( matrix ( c ( 1 , 1 , 2 , 3 ) , 2 , 2 , byrow = TRUE ))
+hist(wt)
+hist(mpg)
+hist(disp)
+```
+
+
+#### You can also include specific sizes for the plots by indicating the desired height and width of the plots.Relative widths are specified with numeric values. Absolute widths (in centimetres) are specified with the lcm() function.
+
+#### The format is for example: layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE),
+####                                  widths=c(3,1), heights=c(1,2)) Whereby: 
+####  One figure in row 1 and two figures in row 2
+#### row 1 is 1/3 the height of row 2
+#### column 2 is 1/4 the width of the column 1
+#### Below is an example of how the measurements affect how the plots appear.
+
+```{r}
+layout(matrix(c(1,1,2,3),2,2,byrow = TRUE), widths = c(3,2), heights = c(2,2))
+
+hist(wt)
+
+plot( wt, mpg ,main ="Scatter plot of mpg vs wt")
+
+hist(disp)
+```
+
+
+```{r}
+library(ggplot2)
+
+layout(matrix(c(1,1,2,3),2,2,byrow = TRUE), widths = c(3,1), heights = c(1,2))
+
+ggplot(data = mtcars)+
+  geom_histogram(mapping = aes(x = wt), fill = "pink")
+
+ggplot(data = mtcars) + 
+  geom_histogram(mapping = aes(x = mpg), fill = "blue")
+
+
+ggplot(data = mtcars) + 
+  geom_histogram(mapping = aes(x = disp), fill = "black")
+```
+
+#### In the above example, I put less focus on the aesthetics. The focus was on seeing if the plots can still be combined when using ggplot2 commands.Not sure why, but the plots appear individually. Further reading shall be done to understand the reason for that.
+
+
